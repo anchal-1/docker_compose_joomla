@@ -1,0 +1,30 @@
+version: '3'
+services:
+    database:
+      image: mysql:5.7 
+      volumes:
+          - sql_volume:/var/lib/mysql
+      restart: always
+      environment:
+         MYSQL_ROOT_PASSWORD: rootpass
+         MYSQL_USER: anchal 
+         MYSQL_PASSWORD: r00t     
+         MYSQL_DATABASE: mydb
+
+    joomla:
+      image: joomla:latest 
+      volumes:
+        - joomla_vol:/var/www/html
+      restart: always
+      depends_on:
+         - database 
+      ports:
+      - 8081:80
+      environment:
+           JOOMLA_DB_HOST: database
+           JOOMLA_DB_USER: anchal
+           JOOMLA_DB_PASSWORD: r00t                           
+           JOOMLA_DB_NAME: mydb 
+volumes:
+        sql_volume:
+        joomla_vol:
